@@ -1,0 +1,2 @@
+# coolasfar.github.io
+blog
