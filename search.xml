@@ -8,7 +8,7 @@
       <link href="2021/01/30/freeRTOS%E5%AE%9E%E6%97%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
       <url>2021/01/30/freeRTOS%E5%AE%9E%E6%97%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
       
-        <content type="html"><![CDATA[<p>这是一篇总结自己在实习的时候最开始接触的一个项目：把freeRTOS操作系统移植到VEGAboard-一款以RISC-V为架构的开发板。大概是这个样子的：</p><img src="/.com//01/30/freeRTOS%E5%AE%9E%E6%97%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/board.jpg" class>]]></content>
+        <content type="html"><![CDATA[<p>这是一篇总结自己在实习的时候最开始接触的一个项目：把freeRTOS操作系统移植到VEGAboard-一款以RISC-V为架构的开发板。大概是这个样子的：</p><img src="/2021/01/30/freeRTOS%E5%AE%9E%E6%97%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/vegaboard.jpg" class><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;* Reset Handler *&#x2F;</span><br><span class="line">Reset_Handler:</span><br><span class="line">    # Disable global interrupt. *&#x2F;</span><br><span class="line">    csrci mstatus, 8</span><br><span class="line">    # initialize stack pointer</span><br><span class="line">    la sp, __StackTop</span><br><span class="line">    # initialize global pointer</span><br><span class="line">    la gp, __global_pointer</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
       
       
       
