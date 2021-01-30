@@ -8,7 +8,7 @@
       <link href="2021/01/30/freeRTOS%E5%AE%9E%E6%97%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
       <url>2021/01/30/freeRTOS%E5%AE%9E%E6%97%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<p>这是一篇总结自己在实习的时候最开始接触的一个项目：把freeRTOS操作系统移植到VEGAboard-一款以RISC-V为架构的开发板。大概是这个样子的：<br><img src="/.com//freeRTOS.jpg"><br><img src="/.com//vegaboard.jpg"></p>]]></content>
       
       
       
