@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/Picture1.png">
 <meta property="og:image" content="http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/Picture2.png">
 <meta property="article:published_time" content="2021-02-01T10:45:02.000Z">
-<meta property="article:modified_time" content="2021-02-01T11:20:38.909Z">
+<meta property="article:modified_time" content="2021-02-01T12:47:35.796Z">
 <meta property="article:author" content="Ming Yue">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/Picture1.png">
@@ -76,6 +76,8 @@
     <br/>
     <span id="actions">
       <ul>
+        
+        <li><a class="icon" href="/2021/02/01/%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E7%9A%84%E8%BD%AC%E6%8D%A2%E5%8F%8A%E8%BF%90%E7%AE%97/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" href="/2021/01/31/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%802/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -164,6 +166,8 @@
 <p>在一个交互的系统里(现在大部分使用的操作系统都是)，用户可以通过命令行或者双击图标来开始一个进程。</p>
 <p>最后一种情况就是利用batch system(通常在大型的主机上)创建进程。</p>
 <p>笼统的讲，所有的进程都是由一个已经存在的进程所创建的。在UNIX系统里，只有一个系统调用可以创建新的进程：<font color="orange"><strong>fork</strong></font>，它会克隆一个被调用的进程（被称为父进程和子进程）。父进程和子进程的内存映像(memory image)，environment string,以及打开文件(open files)都是相同的。通常情况下，子进程会运行execve或者类似的系统调用来改变它的内存映像，然后运行一个新的程序。比如，当我们在命令行打下 sort，shell会fork一个子进程然后这个子进程来运行sort。这样做原因是运行子进程在fork之后能够操作自己的文件描述符(file descriptor)，同时在运行execve之前来完成标准输出，输入，错误(standard input, output,error)的重定向(redirection)。</p>
+<p><font color="powderblue">Note: 文件描述符(file descriptor)-在文件被读写之前，它必须被打开，而且打开的权限会被检查。如果权限允许，系统会返回一个整数，这个整数就是文件描述符。如果权限不允许，就会返回错误代码</font></p>
+<p>在UNIX和windows系统种，当一个进程被创建后，父进程和子进程都有各自不同的地址空间。</p>
 <h2 id="进程的终止"><a href="#进程的终止" class="headerlink" title="进程的终止"></a>进程的终止</h2><p>天下没有不散的宴席，这句话也适用于进程。通常有4种情况可以结束一个进程：</p>
 <ol>
 <li> 正常退出（自愿）</li>
@@ -193,7 +197,7 @@
 </ol>
 <p>如上图所示，操作系统状态之间的转换过程有4种。过程1表示一个进程发现它不能运行。在UNIX系统里，当进程接收不到输入的时候，它便自动进入blocked。</p>
 <p>过程2和3是由<font color="orange"><strong>进程调度器</strong>(process scheduler)</font>引起的。进程调度器是操作系统自带的。过程2是当一个进程运行时间过长，调度器决定让其他进程运行。过程3是因为其他的进程都有相当的运行时间是，调度器会让第一个进程重新运行(通常是原来停止运行的进程)。<br>过程4是由于一些外部事件的发送（如接收到输入。</p>
-<h2 id="实现进程"><a href="#实现进程" class="headerlink" title="实现进程"></a>实现进程</h2><p>操作系统以数组的结构来管理进程，这个结构通常被称为<font color="orange"><strong>进程表</strong></font>(process table)或者进程控制块(process control blocks)。每一个条目(entry)包含一个进程。这些条目包含了进程的有关信息，包括进程状态，程序计数器，堆栈指针，内存分配，打开文件的状态，调度信息等。下图展示了一个操作系统的进程条目:<br>    <img src="/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/Picture2.png" height="800" width="400" class></p>
+<h2 id="实现进程"><a href="#实现进程" class="headerlink" title="实现进程"></a>实现进程</h2><p>操作系统以数组的结构来管理进程，这个结构通常被称为<font color="orange"><strong>进程表</strong></font>(process table)或者进程控制块(process control blocks)。每一个条目(entry)包含一个进程。这些条目包含了进程的有关信息，包括进程状态，程序计数器，堆栈指针，内存分配，打开文件的状态，调度信息等。下图展示了一个操作系统的进程条目:<br>    <img src="/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/Picture2.png" class></p>
 <p>对于每一个I/O设备(如软盘，硬盘，计时器，终端)有一个对应的地址(通常在内存的底层)被称为<font color="orange"><strong>中断向量</strong>(interrupt vector)</font>,它包含了中断服务的地址。假设一个磁盘的中断在进程3运行时发生，进程3的程序计数器，程序状态，一个或多个寄存器都会被中断硬件推进堆栈。计算机会跳转到磁盘中断向量的地址上。这就是硬件所做的所有工作，剩下的就要交给软件来做，比如中断服务过程。</p>
 <p>所有的中断都要先保存寄存器，通常在目前进程的进程表里。然后被中断硬件推入堆栈的信息会被移除，然后堆栈指针通过进程处理器指向一个临时的堆栈。通常保存寄存器和设定堆栈指针是由汇编语言完成的，然后剩下的工作由C语言完成(大多数的操作系统是由C语言编写的)。</p>
 <p>中断处理以及调度可以总结为以下几个步骤:</p>
