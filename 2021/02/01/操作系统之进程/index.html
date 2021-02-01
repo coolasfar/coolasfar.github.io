@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Writing means sharing. It’s part of the human condition to want to share things – thoughts, ideas, opinions.– Paulo Coelho  进程简介在任何操作系统中，最核心的概念就是进程：在抽象的意义上是一个运行的程序。在现代操作系统中，计算机在运行一个程序的同时，可以从磁盘(disk)中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统之进程">
+<meta property="og:url" content="http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Ming Yue&#39;s Blog">
+<meta property="og:description" content="Writing means sharing. It’s part of the human condition to want to share things – thoughts, ideas, opinions.– Paulo Coelho  进程简介在任何操作系统中，最核心的概念就是进程：在抽象的意义上是一个运行的程序。在现代操作系统中，计算机在运行一个程序的同时，可以从磁盘(disk)中">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/Picture1.png">
+<meta property="og:image" content="http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/Picture2.png">
+<meta property="article:published_time" content="2021-02-01T10:45:02.000Z">
+<meta property="article:modified_time" content="2021-02-01T11:20:38.909Z">
+<meta property="article:author" content="Ming Yue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/Picture1.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>操作系统之进程</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2021/01/31/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%802/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&text=操作系统之进程"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&title=操作系统之进程"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&is_video=false&description=操作系统之进程"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=操作系统之进程&body=Check out this article: http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&title=操作系统之进程"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&title=操作系统之进程"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&title=操作系统之进程"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&title=操作系统之进程"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&name=操作系统之进程&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&t=操作系统之进程"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">进程简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="toc-number">2.</span> <span class="toc-text">进程的创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%BB%88%E6%AD%A2"><span class="toc-number">3.</span> <span class="toc-text">进程的终止</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">进程的层次结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-number">5.</span> <span class="toc-text">进程的状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E8%BF%9B%E7%A8%8B"><span class="toc-number">6.</span> <span class="toc-text">实现进程</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        操作系统之进程
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Ming Yue</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-02-01T10:45:02.000Z" itemprop="datePublished">2021-02-01</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>Writing means sharing. It’s part of the human condition to want to share things – thoughts, ideas, opinions.<br>– Paulo Coelho</p>
+</blockquote>
+<h2 id="进程简介"><a href="#进程简介" class="headerlink" title="进程简介"></a>进程简介</h2><p>在任何操作系统中，最核心的概念就是进程：在抽象的意义上是一个运行的程序。在现代操作系统中，计算机在运行一个程序的同时，可以从磁盘(disk)中读取然后输出到屏幕上。但是严格的来说，在某一个特定的时刻，CPU只能运行一个程序，因为每个程序运行的时间非常短暂(通常以毫秒，也就是10^-3秒，为单位)，所以在1秒的时间里，CPU会运行多个程序，从而使得用户有多个程序同时运行的感觉。</p>
+<p>计算机中所有可运行的程序，有时甚至包括操作系统本身，都可以被称为<font color="orange"><strong>进程</strong>(processes)</font>。CPU在不同的程序之间快速切换，被称为<font color="orange"><strong>多道程序</strong>(multiprogramming)</font>。</p>
+<p>前文提到过进程是抽象意义上的<font color="orange"><strong>程序</strong>(program)</font>，但两者之间还是有细微的区别。书中给出一个很形象的类比来解释这两个概念，比如有一位父亲想给他的女儿做一个蛋糕，但他只是一个程序员并不是一个专业的蛋糕师。所以他需要找到一份做蛋糕的配方，以及原料：比如鸡蛋，牛奶，糖等。在这个情况下，配方就相当于程序(program)，这位父亲就是CPU，原料就是输入的数据，然而进程是指他做蛋糕的整个过程：包括阅读配方，加入原料以及放入烤箱。</p>
+<p>继续我们的类比，假设这时这位程序员的儿子跑了进来，并说他在踢球时受伤了。所以程序员会暂停阅读蛋糕配方(正在进行的进程被保存)，找出急救指南(关于如何包扎伤口)，然后按指示给儿子包扎。在这里，CPU（程序员）从一个进程（做蛋糕）切换到优先级更高的进程（包扎伤口），每个进程都有不同的程序（蛋糕配方和急救指南）。当他处理完伤口，然后会去继续完成他的蛋糕制作。</p>
+<h2 id="进程的创建"><a href="#进程的创建" class="headerlink" title="进程的创建"></a>进程的创建</h2><p>有四个基本的事件可以创建进程:</p>
+<ol>
+<li> 系统的初始化</li>
+<li> 通过一个正在运行的进程系统调用(system call)创建一个进程</li>
+<li>   用户要求创建一个新的进程</li>
+<li>   开始一个Batch job</li>
+</ol>
+<p>下面分别对这四种情况进行详细解释:<br>当操作系统启动的时候，一些进程会被创建，这些进程包括前台进程（与用户交互的一些进程），以及<font color="orange"><strong>后台进程</strong>(daemons)</font>。后台进程一般包括邮件的接收，web的创建以及打印等。在UNIX系统种，ps可以查看正在运行的进程，在windows系统中，可以通过任务管理器(task manage)来查看。</p>
+<p>一个正在运行的进程可以通过系统调用来创建一个新的进程来协助它的工作。比如，想要通过网络来接收大量的数据，一个进程可以接收数据并且把它们放在一个共享的缓冲(buffer)里，第二个进程可以移除这些数据并且处理。</p>
+<p>在一个交互的系统里(现在大部分使用的操作系统都是)，用户可以通过命令行或者双击图标来开始一个进程。</p>
+<p>最后一种情况就是利用batch system(通常在大型的主机上)创建进程。</p>
+<p>笼统的讲，所有的进程都是由一个已经存在的进程所创建的。在UNIX系统里，只有一个系统调用可以创建新的进程：<font color="orange"><strong>fork</strong></font>，它会克隆一个被调用的进程（被称为父进程和子进程）。父进程和子进程的内存映像(memory image)，environment string,以及打开文件(open files)都是相同的。通常情况下，子进程会运行execve或者类似的系统调用来改变它的内存映像，然后运行一个新的程序。比如，当我们在命令行打下 sort，shell会fork一个子进程然后这个子进程来运行sort。这样做原因是运行子进程在fork之后能够操作自己的文件描述符(file descriptor)，同时在运行execve之前来完成标准输出，输入，错误(standard input, output,error)的重定向(redirection)。</p>
+<h2 id="进程的终止"><a href="#进程的终止" class="headerlink" title="进程的终止"></a>进程的终止</h2><p>天下没有不散的宴席，这句话也适用于进程。通常有4种情况可以结束一个进程：</p>
+<ol>
+<li> 正常退出（自愿）</li>
+<li>   错误退出(自愿)</li>
+<li>   严重错误（非自愿）</li>
+<li>   由其他进程终止（非自愿）</li>
+</ol>
+<p>大多数的进程都是在完成工作后终止。由系统调用（在UNIX里是exit,在windows里是ExitProcess）来终止。</p>
+<p>第二种情况是进程发现了一些错误。比如，如果用户在命令行输入 cc foo.c 但是foo.c这个文件并不存在。这时编译器就会终止。</p>
+<p>第三种情况通常是由于程序的bug，比如处理一些非法指令，指定一些不存在的内存，或者除数为0等。</p>
+<p>第四种情况是由其他进程来终止。在UNIX里被称为kill, 在windows里是TerminateProcess。通常‘killer’会有一定的权限来执行。</p>
+<h2 id="进程的层次结构"><a href="#进程的层次结构" class="headerlink" title="进程的层次结构"></a>进程的层次结构</h2><p>一个进程可以产生一个或者多个进程，它和它的”后代们”会组成一个进程Group。当用户通过键盘向这个Group 发送一个信号时，所有的成员都可以收到，同时每个进程都有自己的权力来处理这个信号（接收或忽略）。<br>在UNIX系统里，所有的进程可以被看成一个树的结构，且只有一个根，那就是 <strong>init</strong><br>相反在windows系统里，所有的进程都是平等的(有若干个树)。</p>
+<h2 id="进程的状态"><a href="#进程的状态" class="headerlink" title="进程的状态"></a>进程的状态</h2><p>尽管所有的进程都是独立存在(有自己的程序计数器，内部状态)。但大部分情况下进程之间都是交互的，一个进程的输出可能会是另一个进程的输入。比如在shell中的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cat chapter1 chapter2 chapter3 | grep tree</span><br></pre></td></tr></table></figure>
+<p>第一个进程运行了cat，把3个文件整合起来并输出。第二个进程运行了grep ，选中所有包含”tree”的行。由于程序的复杂度以CPU处理速度等因素，会出现grep以及准备运行但是前面的cat还没有运行完毕。所以这时候，grep就会进入blocked的状态直到接收到前面的输入。</p>
+<p>进程进入blocked状态有两种情况 :第一种就是上文提到的因为接收不到输入。第二种情况就是操作系统会使CPU处理其他的进程。这两种情况是完全不同的。</p>
+<p>一个进程通常有3种状态</p>
+<ol>
+<li><p> running（在这一刻用CPU）</p>
+</li>
+<li><p>   ready（可运行的；等待其他进程运行）</p>
+</li>
+<li><p>blocked（由于一些外部情况不能运行）</p>
+ <img src="/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/Picture1.png" class>
+
+</li>
+</ol>
+<p>如上图所示，操作系统状态之间的转换过程有4种。过程1表示一个进程发现它不能运行。在UNIX系统里，当进程接收不到输入的时候，它便自动进入blocked。</p>
+<p>过程2和3是由<font color="orange"><strong>进程调度器</strong>(process scheduler)</font>引起的。进程调度器是操作系统自带的。过程2是当一个进程运行时间过长，调度器决定让其他进程运行。过程3是因为其他的进程都有相当的运行时间是，调度器会让第一个进程重新运行(通常是原来停止运行的进程)。<br>过程4是由于一些外部事件的发送（如接收到输入。</p>
+<h2 id="实现进程"><a href="#实现进程" class="headerlink" title="实现进程"></a>实现进程</h2><p>操作系统以数组的结构来管理进程，这个结构通常被称为<font color="orange"><strong>进程表</strong></font>(process table)或者进程控制块(process control blocks)。每一个条目(entry)包含一个进程。这些条目包含了进程的有关信息，包括进程状态，程序计数器，堆栈指针，内存分配，打开文件的状态，调度信息等。下图展示了一个操作系统的进程条目:<br>    <img src="/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/Picture2.png" height="800" width="400" class></p>
+<p>对于每一个I/O设备(如软盘，硬盘，计时器，终端)有一个对应的地址(通常在内存的底层)被称为<font color="orange"><strong>中断向量</strong>(interrupt vector)</font>,它包含了中断服务的地址。假设一个磁盘的中断在进程3运行时发生，进程3的程序计数器，程序状态，一个或多个寄存器都会被中断硬件推进堆栈。计算机会跳转到磁盘中断向量的地址上。这就是硬件所做的所有工作，剩下的就要交给软件来做，比如中断服务过程。</p>
+<p>所有的中断都要先保存寄存器，通常在目前进程的进程表里。然后被中断硬件推入堆栈的信息会被移除，然后堆栈指针通过进程处理器指向一个临时的堆栈。通常保存寄存器和设定堆栈指针是由汇编语言完成的，然后剩下的工作由C语言完成(大多数的操作系统是由C语言编写的)。</p>
+<p>中断处理以及调度可以总结为以下几个步骤:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">硬件堆入程序计数器等</span><br><span class="line">硬件从中断向量里提取新的程序计数器</span><br><span class="line">汇编语言保存寄存器</span><br><span class="line">汇编语言设立新的堆栈</span><br><span class="line">C语言中断服务运行（通常是读取或者输入）</span><br><span class="line">调度器决定该运行哪个进程</span><br><span class="line">C语言转回汇编语言</span><br><span class="line">由汇编语言开启新的进程</span><br></pre></td></tr></table></figure>
+
+
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">进程简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="toc-number">2.</span> <span class="toc-text">进程的创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%BB%88%E6%AD%A2"><span class="toc-number">3.</span> <span class="toc-text">进程的终止</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">进程的层次结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-number">5.</span> <span class="toc-text">进程的状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E8%BF%9B%E7%A8%8B"><span class="toc-number">6.</span> <span class="toc-text">实现进程</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&text=操作系统之进程"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&title=操作系统之进程"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&is_video=false&description=操作系统之进程"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=操作系统之进程&body=Check out this article: http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&title=操作系统之进程"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&title=操作系统之进程"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&title=操作系统之进程"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&title=操作系统之进程"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&name=操作系统之进程&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/&t=操作系统之进程"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2021
+    Ming Yue
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
