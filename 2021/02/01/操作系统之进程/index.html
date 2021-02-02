@@ -191,13 +191,13 @@
 <li><p>   ready（可运行的；等待其他进程运行）</p>
 </li>
 <li><p>blocked（由于一些外部情况不能运行）</p>
- <img src="/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/Picture1.png" class>
+ <img src="/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/Picture1.png" height="800" width="400" class>
 
 </li>
 </ol>
 <p>如上图所示，操作系统状态之间的转换过程有4种。过程1表示一个进程发现它不能运行。在UNIX系统里，当进程接收不到输入的时候，它便自动进入blocked。</p>
 <p>过程2和3是由<font color="orange"><strong>进程调度器</strong>(process scheduler)</font>引起的。进程调度器是操作系统自带的。过程2是当一个进程运行时间过长，调度器决定让其他进程运行。过程3是因为其他的进程都有相当的运行时间是，调度器会让第一个进程重新运行(通常是原来停止运行的进程)。<br>过程4是由于一些外部事件的发送（如接收到输入。</p>
-<h2 id="实现进程"><a href="#实现进程" class="headerlink" title="实现进程"></a>实现进程</h2><p>操作系统以数组的结构来管理进程，这个结构通常被称为<font color="orange"><strong>进程表</strong></font>(process table)或者进程控制块(process control blocks)。每一个条目(entry)包含一个进程。这些条目包含了进程的有关信息，包括进程状态，程序计数器，堆栈指针，内存分配，打开文件的状态，调度信息等。下图展示了一个操作系统的进程条目:<br>    <img src="/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/Picture2.png" class></p>
+<h2 id="实现进程"><a href="#实现进程" class="headerlink" title="实现进程"></a>实现进程</h2><p>操作系统以数组的结构来管理进程，这个结构通常被称为<font color="orange"><strong>进程表</strong></font>(process table)或者进程控制块(process control blocks)。每一个条目(entry)包含一个进程。这些条目包含了进程的有关信息，包括进程状态，程序计数器，堆栈指针，内存分配，打开文件的状态，调度信息等。下图展示了一个操作系统的进程条目:<br>    <img src="/2021/02/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B/Picture2.png" height="800" width="400" class></p>
 <p>对于每一个I/O设备(如软盘，硬盘，计时器，终端)有一个对应的地址(通常在内存的底层)被称为<font color="orange"><strong>中断向量</strong>(interrupt vector)</font>,它包含了中断服务的地址。假设一个磁盘的中断在进程3运行时发生，进程3的程序计数器，程序状态，一个或多个寄存器都会被中断硬件推进堆栈。计算机会跳转到磁盘中断向量的地址上。这就是硬件所做的所有工作，剩下的就要交给软件来做，比如中断服务过程。</p>
 <p>所有的中断都要先保存寄存器，通常在目前进程的进程表里。然后被中断硬件推入堆栈的信息会被移除，然后堆栈指针通过进程处理器指向一个临时的堆栈。通常保存寄存器和设定堆栈指针是由汇编语言完成的，然后剩下的工作由C语言完成(大多数的操作系统是由C语言编写的)。</p>
 <p>中断处理以及调度可以总结为以下几个步骤:</p>
