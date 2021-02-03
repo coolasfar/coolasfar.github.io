@@ -15,8 +15,9 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2021/02/02/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%803/pic1.png">
 <meta property="og:image" content="http://example.com/2021/02/02/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%803/pic2.png">
+<meta property="og:image" content="http://example.com/2021/02/02/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%803/pic3.png">
 <meta property="article:published_time" content="2021-02-02T11:17:30.000Z">
-<meta property="article:modified_time" content="2021-02-02T12:13:03.959Z">
+<meta property="article:modified_time" content="2021-02-03T12:46:49.764Z">
 <meta property="article:author" content="Ming Yue">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2021/02/02/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%803/pic1.png">
@@ -108,7 +109,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80"><span class="toc-number">1.</span> <span class="toc-text">物理地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16%E4%BD%8D%E7%BB%93%E6%9E%84%E7%9A%84CPU"><span class="toc-number">2.</span> <span class="toc-text">16位结构的CPU</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8086CPU%E7%BB%99%E5%87%BA%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">8086CPU给出物理地址的方法</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80"><span class="toc-number">1.</span> <span class="toc-text">物理地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16%E4%BD%8D%E7%BB%93%E6%9E%84%E7%9A%84CPU"><span class="toc-number">2.</span> <span class="toc-text">16位结构的CPU</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8086CPU%E7%BB%99%E5%87%BA%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">8086CPU给出物理地址的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%80%9C%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80-%E6%AE%B5%E5%9C%B0%E5%9D%80x16-%E5%81%8F%E7%A7%BB%E5%9C%B0%E5%9D%80%E2%80%9D-%E7%9A%84%E6%9C%AC%E8%B4%A8%E6%84%8F%E4%B9%89"><span class="toc-number">4.</span> <span class="toc-text">“物理地址 &#x3D; 段地址x16+偏移地址” 的本质意义</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -170,6 +171,20 @@
 </ol>
 <p><strong>物理地址 = 段地址x16+偏移地址</strong><br>如果CPU要访问地址为123C8H的内存单元，那么过程如下图所示：</p>
 <img src="/2021/02/02/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%803/pic2.png" class>
+
+<h2 id="“物理地址-段地址x16-偏移地址”-的本质意义"><a href="#“物理地址-段地址x16-偏移地址”-的本质意义" class="headerlink" title="“物理地址 = 段地址x16+偏移地址” 的本质意义"></a>“物理地址 = 段地址x16+偏移地址” 的本质意义</h2><p>CPU在访问内存时，用一个基础的地址(段地址x16)和一个相对于基础地址的偏移地址相加，给出内存单元的物理地址。</p>
+<p>以2个和CPU无关的例子来说明:<br>第一个比喻说明”基础地址+偏移地址=物理地址”的思想:<br>学校，体育馆和图书馆在一条路上</p>
+<img src="/2021/02/02/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%803/pic3.png" class>
+
+<p>有两种方式描述图书馆的地址:</p>
+<ol>
+<li>从学校走2826m到图书馆。这2826m可以认为是图书馆的物理地址</li>
+<li>从学校走2000m到体育馆，从体育馆再走826m到图书馆。第一个2000m相当于是基础地址，第二个826m是相对于基础地址的偏移地址。</li>
+</ol>
+<p>第二个比喻说明了”段地址x16+偏移地址=物理地址”:</p>
+<p>如果只能通过纸条来互相通信，且一张纸条只能写3个数字，所以我不能写下2826这个数字，所以只能用2个纸条，一个写200,一个写826。然后根据我们事先的约定，得到纸条后做这样的运算: 200(段地址)x10+826(偏移地址) = 2826(物理地址)</p>
+<p>8086CPU就是这样只能提供2张3位数据纸条的CPU。</p>
+
   </div>
 </article>
 
@@ -192,7 +207,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80"><span class="toc-number">1.</span> <span class="toc-text">物理地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16%E4%BD%8D%E7%BB%93%E6%9E%84%E7%9A%84CPU"><span class="toc-number">2.</span> <span class="toc-text">16位结构的CPU</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8086CPU%E7%BB%99%E5%87%BA%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">8086CPU给出物理地址的方法</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80"><span class="toc-number">1.</span> <span class="toc-text">物理地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16%E4%BD%8D%E7%BB%93%E6%9E%84%E7%9A%84CPU"><span class="toc-number">2.</span> <span class="toc-text">16位结构的CPU</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8086CPU%E7%BB%99%E5%87%BA%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">8086CPU给出物理地址的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%80%9C%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80-%E6%AE%B5%E5%9C%B0%E5%9D%80x16-%E5%81%8F%E7%A7%BB%E5%9C%B0%E5%9D%80%E2%80%9D-%E7%9A%84%E6%9C%AC%E8%B4%A8%E6%84%8F%E4%B9%89"><span class="toc-number">4.</span> <span class="toc-text">“物理地址 &#x3D; 段地址x16+偏移地址” 的本质意义</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
