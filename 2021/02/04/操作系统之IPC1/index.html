@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="进程间的通信进程通信(interprocess communication)是一种不需要中断的进程之间的交流。可以简称为IPC。关于这个交流，有三个问题是需要我们事先考虑的：   一个进程如何向另一个进程传递信息    多个线程之间如何做到不互相干扰    在交流中如何保证合适的时序性  线程同样会面临这三个问题，只不过难度不一样。比如线程传递信息更容易因为线程享有相同的地址空间。 条件竞争在很多">
+    <meta name="description" content="Astronomy’s much more fun when you’re not an astronomer.– Brian May  进程间的通信进程通信(interprocess communication)是一种不需要中断的进程之间的交流。可以简称为IPC。关于这个交流，有三个问题是需要我们事先考虑的：   一个进程如何向另一个进程传递信息    多个线程之间如何做到不互相干扰    在">
 <meta property="og:type" content="article">
 <meta property="og:title" content="操作系统之IPC1">
 <meta property="og:url" content="http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/index.html">
 <meta property="og:site_name" content="Ming Yue&#39;s Blog">
-<meta property="og:description" content="进程间的通信进程通信(interprocess communication)是一种不需要中断的进程之间的交流。可以简称为IPC。关于这个交流，有三个问题是需要我们事先考虑的：   一个进程如何向另一个进程传递信息    多个线程之间如何做到不互相干扰    在交流中如何保证合适的时序性  线程同样会面临这三个问题，只不过难度不一样。比如线程传递信息更容易因为线程享有相同的地址空间。 条件竞争在很多">
+<meta property="og:description" content="Astronomy’s much more fun when you’re not an astronomer.– Brian May  进程间的通信进程通信(interprocess communication)是一种不需要中断的进程之间的交流。可以简称为IPC。关于这个交流，有三个问题是需要我们事先考虑的：   一个进程如何向另一个进程传递信息    多个线程之间如何做到不互相干扰    在">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/pic1.png">
 <meta property="og:image" content="http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/pic2.png">
 <meta property="article:published_time" content="2021-02-04T10:56:53.000Z">
-<meta property="article:modified_time" content="2021-02-04T11:17:03.070Z">
+<meta property="article:modified_time" content="2021-02-04T11:19:42.379Z">
 <meta property="article:author" content="Ming Yue">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/pic1.png">
@@ -145,7 +145,10 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="进程间的通信"><a href="#进程间的通信" class="headerlink" title="进程间的通信"></a>进程间的通信</h2><p><font color="orange"><strong>进程通信</strong>(interprocess communication)</font>是一种不需要中断的进程之间的交流。可以简称为IPC。关于这个交流，有三个问题是需要我们事先考虑的：</p>
+    <blockquote>
+<p>Astronomy’s much more fun when you’re not an astronomer.<br>– Brian May</p>
+</blockquote>
+<h2 id="进程间的通信"><a href="#进程间的通信" class="headerlink" title="进程间的通信"></a>进程间的通信</h2><p><font color="orange"><strong>进程通信</strong>(interprocess communication)</font>是一种不需要中断的进程之间的交流。可以简称为IPC。关于这个交流，有三个问题是需要我们事先考虑的：</p>
 <ol>
 <li> 一个进程如何向另一个进程传递信息</li>
 <li>   多个线程之间如何做到不互相干扰</li>
