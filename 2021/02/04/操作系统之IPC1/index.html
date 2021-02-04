@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="进程间的通信进程通信(interprocess communication)是一种不需要中断的进程之间的交流。可以简称为IPC。关于这个交流，有三个问题是需要我们事先考虑的：   一个进程如何向另一个进程传递信息    多个线程之间如何做到不互相干扰    在交流中如何保证合适的时序性  线程同样会面临这三个问题，只不过难度不一样。比如线程传递信息更容易因为线程享有相同的地址空间。 条件竞争在很多">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统之IPC1">
+<meta property="og:url" content="http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/index.html">
+<meta property="og:site_name" content="Ming Yue&#39;s Blog">
+<meta property="og:description" content="进程间的通信进程通信(interprocess communication)是一种不需要中断的进程之间的交流。可以简称为IPC。关于这个交流，有三个问题是需要我们事先考虑的：   一个进程如何向另一个进程传递信息    多个线程之间如何做到不互相干扰    在交流中如何保证合适的时序性  线程同样会面临这三个问题，只不过难度不一样。比如线程传递信息更容易因为线程享有相同的地址空间。 条件竞争在很多">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/pic1.png">
+<meta property="og:image" content="http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/pic2.png">
+<meta property="article:published_time" content="2021-02-04T10:56:53.000Z">
+<meta property="article:modified_time" content="2021-02-04T11:17:03.070Z">
+<meta property="article:author" content="Ming Yue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/pic1.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>操作系统之IPC1</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2021/02/03/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%BA%BF%E7%A8%8B2/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&text=操作系统之IPC1"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&title=操作系统之IPC1"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&is_video=false&description=操作系统之IPC1"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=操作系统之IPC1&body=Check out this article: http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&title=操作系统之IPC1"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&title=操作系统之IPC1"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&title=操作系统之IPC1"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&title=操作系统之IPC1"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&name=操作系统之IPC1&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&t=操作系统之IPC1"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1"><span class="toc-number">1.</span> <span class="toc-text">进程间的通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89"><span class="toc-number">2.</span> <span class="toc-text">条件竞争</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%B4%E7%95%8C%E5%8C%BA-critical-regions"><span class="toc-number">3.</span> <span class="toc-text">临界区(critical regions)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%99%E7%A2%8C%E7%AD%89%E5%BE%85%E4%B8%AD%E7%9A%84%E4%BA%92%E6%96%A5"><span class="toc-number">4.</span> <span class="toc-text">忙碌等待中的互斥</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        操作系统之IPC1
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Ming Yue</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-02-04T10:56:53.000Z" itemprop="datePublished">2021-02-04</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="进程间的通信"><a href="#进程间的通信" class="headerlink" title="进程间的通信"></a>进程间的通信</h2><p><font color="orange"><strong>进程通信</strong>(interprocess communication)</font>是一种不需要中断的进程之间的交流。可以简称为IPC。关于这个交流，有三个问题是需要我们事先考虑的：</p>
+<ol>
+<li> 一个进程如何向另一个进程传递信息</li>
+<li>   多个线程之间如何做到不互相干扰</li>
+<li>   在交流中如何保证合适的时序性</li>
+</ol>
+<p>线程同样会面临这三个问题，只不过难度不一样。比如线程传递信息更容易因为线程享有相同的地址空间。</p>
+<h2 id="条件竞争"><a href="#条件竞争" class="headerlink" title="条件竞争"></a>条件竞争</h2><p>在很多操作系统中，进程之间会有一个共享的存储空间，这个空间一般在主存里或者其他文件里。举一个例子来说明进程之间是怎样交流的：后台打印程序(print spooler)。当一个进程想要打印一个文件，它会进入一个由后台文件夹下的文件。另一个进程，打印机后台程序，定期检查是否有需要打印的文件，如果有，那就打印，然后把文件的名字从后台文件夹下移除。<br>假设后台文件夹有很多 0，1，2… 每一个文件都可以保存一个文件名。同时有2个共享的变量，一个是out,指向下一个需要打印的文件，一个是in，指向下一个可执行的文件夹(编号)。这两个变量保证了每个文件都至少包含了2个字（WORD）。这时，进程A和进程B都想把一个文件加入打印列队。这个过程如下图所示:</p>
+<img src="/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/pic1.png" class>
+
+<p>这样就会出现一种情况：进程A读取in并储存7，在一个名为next_free_slot的本地变量中。就在这时，时钟中断出现了因为CPU任务进程A运行太长时间了，要切换成进程B。进程B也读取了in，也就是7, 然后也把7储存到了next_free_slot。这时，两个进程都认为下一个可执行的文件是7号。<br>进程B继续运行，并把文件名字存进文件夹7然后把in升级为8。<br>然后进程A重新运行，从它停止的那一步开始，所以它会把文件名写入7号文件夹，这样就把进程B的文件替换掉了。然后把in升级为8。所以进程B的文件永远不会被打印。<br>对于这种情况，多个进程读写共享的数据而且结果由进程运行的时刻所影响，就叫做<font color="orange"><strong>条件竞争</strong>(race conditions)</font>。</p>
+<h2 id="临界区-critical-regions"><a href="#临界区-critical-regions" class="headerlink" title="临界区(critical regions)"></a>临界区(critical regions)</h2><p>如何避免条件竞争？我们需要引入互斥(mutual exclusion)这种方法，也就是当一个进程在使用共享变量或者文件时，其他的进程就不能做同样的事。这种方法的难点就在于当进程B使用共享变量的时候，进程A还没有完成。<br>一个共享空间的程序被称为<font color="orange"><strong>临界区</strong></font>。如果可以保证两个进程不同时出现在临界区，就可以避免条件竞争.<br>如果想要并行进程更有效率的话，还需要满足4个条件：</p>
+<ol>
+<li> 两个进程不同时出现在临界区里</li>
+<li>   对CPU的速度和数量没有要求</li>
+<li>   在临界区外运行的进程不应该block其他的进程</li>
+<li>   每一个进程都可以进入临界区</li>
+</ol>
+<p>下图展示了在临界区产生的互斥:</p>
+<img src="/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/pic2.png" class>
+
+<h2 id="忙碌等待中的互斥"><a href="#忙碌等待中的互斥" class="headerlink" title="忙碌等待中的互斥"></a>忙碌等待中的互斥</h2><p>下面详细介绍实现互斥的几种方案：</p>
+<ul>
+<li><p><font color="orange"><strong>去使能中断(disable interrupt)</strong></font><br>一个最简单的互斥方法就是在进入临界区后disable每个进程的中断，然后它们离开的时候重新使能(re-enable)。因为CPU只能通过中断(时钟或其他)来从一个进程转到另一个进程，所以关闭中断就保证了CPU不能转换进程。<br>这种方法的问题在于把中断关闭后，如果不把中断再打开就会引发系统的终结。还有一种情况是在多核处理器的情况下，中断能影响到一个CPU。总结下来就是，去使能中断对于操作系统本身很有用，但是对于用户进程就不适合</p>
+</li>
+<li><p><font color="orange"><strong>锁变量(lock variables)</strong></font><br>假如有一个共享(锁)变量，一开始是0。当一个进程想进入临界区之前，要检查这个锁变量。如果锁是0，进程就把它设置为1然后进入临界区，如果锁以及是1了，那就等待锁变为0。0代表着临界区没有进程，1代表了临界区里有进程。<br>这种方法的问题在于如果一个进程在把锁设置为1之前，另一个进程突然进入然后把锁设置为1，这样两个进程都会进入。这是因为在进程2把锁设置为1时，进程1已经检查过了锁(判断为0),所以竞争已经发生。</p>
+</li>
+<li><p><font color="orange"><strong>严格变更(strict alternation)</strong></font><br>下面的两部分代码展示这种方法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(True)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">while</span>(turn != <span class="number">0</span>)</span><br><span class="line">	Critical_region();</span><br><span class="line">	Turn = <span class="number">1</span>;</span><br><span class="line">	Noncritical_region();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><font color="powderblue">process0</font></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(True)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">while</span>(turn != <span class="number">1</span>)</span><br><span class="line">	Critical_region();</span><br><span class="line">	Turn = <span class="number">0</span>;</span><br><span class="line">	Noncritical_region();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><font color="powderblue">process1</font><br>Turn 的初始值是0。Process0 检查turn，发现turn是0，所以进入<em>critical_region</em>（不进入while）。Process1检查turn,也发现是0，所以进入循环(因为turn != 1)检查什么时候turn变为1。这种用循环检查值的方法被称为busy waiting,这种方法通常会浪费CPU时间，所以在短时间等待的情况下比较适用。一个用busy waiting的锁被称为<font color="orange"><strong>spin lock（旋转锁）</strong></font>。<br>当process0离开临界区的时候，会把turn设为1来让process1进入临界区，当process1完成任务的时候，就会把turn设为0，并离开临界区。然后process0再次进入循环，设turn为1…<br>如果这时，process0想进入临界区，但process1在临界区外，也就是说turn还是1，所以process0进入不了临界区，只能进入while循环。所以这种方法对于运行速度差异较大的是不适用的。而且违法了上文所提到的第三个条件:process0被临界区之外的进程block。<br>所以这种方法严格要求了两个进程的替换顺序，尽管它能够避免了竞争，但也不是一个很好的解决方法，因为违法了第三个条件。</p>
+</li>
+<li><p><font color="orange"><strong>Peterson’s solution</strong></font></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FALSE 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TRUE  1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 	  2 	<span class="comment">/*number of processes*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> turn;</span><br><span class="line"><span class="keyword">int</span> interested[N];				  <span class="comment">// all values initially 0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enter_region</span><span class="params">(<span class="keyword">int</span> process)</span>    <span class="comment">// 1 or 0</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> other；                    <span class="comment">//number of other process</span></span><br><span class="line">	</span><br><span class="line">	other = <span class="number">1</span>-process;			  <span class="comment">// the opposite of process</span></span><br><span class="line">	interested[process] = TRUE;  <span class="comment">// show that you are interested.</span></span><br><span class="line">	turn = process;				 <span class="comment">//set flag</span></span><br><span class="line">	<span class="keyword">while</span> (turn == process &amp;&amp; interested[other] == TRUE)<span class="comment">//null statement</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">leave_region</span><span class="params">(<span class="keyword">int</span> process)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	interested[process] = FALSE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p><font color="orange"><strong>TSL 指令</strong></font><br>这个方法是需要借助硬件来实现的，一般的计算机都会有指令<br><code>TSL RX,LOCK</code><br>Test and set lock。这个指令把lock的内存放入寄存器RX然后存储一个非零数在lock的内存地址。这个指令保证了在它执行完成之前，其他的处理器都不能进入。<br>下面的汇编代码给出了详细解答：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">enter_region:</span><br><span class="line">	TSL REGISTER,LOCK              |copy lock to register and set lock to 1</span><br><span class="line">	CMP REGISTER,#0		       |was lock 0?</span><br><span class="line">	JNE enter_region	       |if it was non zero, lock was set so loop</span><br><span class="line">	RET    			       |return to caller;critical region entered</span><br><span class="line"></span><br><span class="line">leave_region:</span><br><span class="line">	MOVE LOCK,#0		       |store 0 in lock </span><br><span class="line">	RET       			</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1"><span class="toc-number">1.</span> <span class="toc-text">进程间的通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89"><span class="toc-number">2.</span> <span class="toc-text">条件竞争</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%B4%E7%95%8C%E5%8C%BA-critical-regions"><span class="toc-number">3.</span> <span class="toc-text">临界区(critical regions)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%99%E7%A2%8C%E7%AD%89%E5%BE%85%E4%B8%AD%E7%9A%84%E4%BA%92%E6%96%A5"><span class="toc-number">4.</span> <span class="toc-text">忙碌等待中的互斥</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&text=操作系统之IPC1"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&title=操作系统之IPC1"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&is_video=false&description=操作系统之IPC1"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=操作系统之IPC1&body=Check out this article: http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&title=操作系统之IPC1"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&title=操作系统之IPC1"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&title=操作系统之IPC1"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&title=操作系统之IPC1"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&name=操作系统之IPC1&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/02/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8BIPC1/&t=操作系统之IPC1"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2021
+    Ming Yue
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
