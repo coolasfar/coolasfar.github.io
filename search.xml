@@ -4,6 +4,32 @@
   
     
     <entry>
+      <title>学习算法导论</title>
+      <link href="2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/"/>
+      <url>2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>“I thought clay must feel happy in the good potter’s hand.”<br>– Janet Fitch</p></blockquote><p>这学期结束后，利用短暂的假期，终于开启了著名的 <em>算法导论</em> 学习之旅。学习的时间比较仓促，由于平常还要实习，所以基本只学习了我认为经典和重要的数据结构和算法，耗时大概20天。</p><p>学习的方法就是书上的定义，例子，伪代码并且用python语言实现（可以在博客里的project里面查看代码），有些伪代码难以理解或者例子过于复杂，会选择更简单堆例子来实现。本书最精华也是最难的数学证明部分（证明算法的合法性，运算时间，所占空间等）我是直接跳过了，因为时间的原因。经典的作品是不能只读一遍的，也许在不久的将来，我会利用闲暇的时间再重读此书。第二次阅读的主要目标是巩固第一遍较难的算法。</p><p>首先总结一下学习的内容：</p><ol><li>排序算法。最为基础和经典的算法。书中给出了大约7中排序算法，选取了其中5种最常见的算法：插入，选择，冒泡，合并，堆排序，快速排序。其中较难理解的是合并以及快速排序。</li><li>分治策略。主要以最大子数组为例，没有太深入学习</li><li>基本数据结构。是本次学习中内容占比最大的。涉及到栈和队列，链表，散列表，二叉搜索树，红黑树。这次学习对这些基本的数据结构的实现有一定的理解，但还达不到手写出来的程度。</li><li>动态规划和贪心算法。在面试题中出现频率非常高的题型，有很强的技巧性，难度也通常比较大。通常涉及到最优子问题。</li><li>图论。广度优先搜索和深度优先搜索是非常重要的算法。kruskal和prim算法实现最小生成树，以及经典最短路径算法dijkstra。</li><li>字符串匹配。KMP算法。</li></ol><p>学习完的感受：<br>对这些基本的算法的原理有了一定的理解，也了解到了算法设计的应用及重要性。对于工作中算法的面试也有很大的帮助。由于在学习的过程中深入度不够，以及在很多问题思考不足就直接搜索思路，目前存在的问题是对于算法的理解没有那么深入，在实操的时候也很容易出错（达不到不借助任何辅助来实现这些算法）。由于目前的首要难关是面试中的算法题，所以接下来就是要多刷题，尽可能利用学到的算法来实现。</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>算法之排序2</title>
+      <link href="2021/02/26/%E7%AE%97%E6%B3%95%E4%B9%8B%E6%8E%92%E5%BA%8F2/"/>
+      <url>2021/02/26/%E7%AE%97%E6%B3%95%E4%B9%8B%E6%8E%92%E5%BA%8F2/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>The inherent vice of capitalism is the unequal sharing of blessings; the inherent virtue of socialism is the equal sharing of miseries.<br>-Winston Churchill</p></blockquote><h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><p>依然使用[55,23,87,62,16]为例。插入排序法是将数组中的元素逐一与已排序好的数据进行比较。</p><ol><li>插入第一个数<ul><li>55</li></ul></li><li>第二个数与55比较并插入<ul><li>23 55</li></ul></li><li>第三个数87与第二个数比较<ul><li>23 55 87</li></ul></li><li>第四个数62 与87比较<ul><li>23 55 62 87</li></ul></li><li>第五个数与其他的数比较<ul><li>16 23 55 62 87</li></ul></li></ol>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>操作系统经典进程通信问题</title>
       <link href="2021/02/19/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%BB%8F%E5%85%B8%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E9%97%AE%E9%A2%98/"/>
       <url>2021/02/19/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%BB%8F%E5%85%B8%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E9%97%AE%E9%A2%98/</url>

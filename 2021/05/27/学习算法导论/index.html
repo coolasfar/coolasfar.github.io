@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="“I thought clay must feel happy in the good potter’s hand.”– Janet Fitch  这学期结束后，利用短暂的假期，终于开启了著名的 算法导论 学习之旅。学习的时间比较仓促，由于平常还要实习，所以基本只学习了我认为经典和重要的数据结构和算法，耗时大概20天。 学习的方法就是书上的定义，例子，伪代码并且用python语言实现（可以在博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习算法导论">
+<meta property="og:url" content="http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/index.html">
+<meta property="og:site_name" content="Ming Yue&#39;s Blog">
+<meta property="og:description" content="“I thought clay must feel happy in the good potter’s hand.”– Janet Fitch  这学期结束后，利用短暂的假期，终于开启了著名的 算法导论 学习之旅。学习的时间比较仓促，由于平常还要实习，所以基本只学习了我认为经典和重要的数据结构和算法，耗时大概20天。 学习的方法就是书上的定义，例子，伪代码并且用python语言实现（可以在博客">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-05-27T11:31:51.000Z">
+<meta property="article:modified_time" content="2021-05-27T12:11:17.808Z">
+<meta property="article:author" content="Ming Yue">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>学习算法导论</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2021/02/26/%E7%AE%97%E6%B3%95%E4%B9%8B%E6%8E%92%E5%BA%8F2/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&text=学习算法导论"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&title=学习算法导论"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&is_video=false&description=学习算法导论"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=学习算法导论&body=Check out this article: http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&title=学习算法导论"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&title=学习算法导论"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&title=学习算法导论"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&title=学习算法导论"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&name=学习算法导论&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&t=学习算法导论"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        学习算法导论
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Ming Yue</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-05-27T11:31:51.000Z" itemprop="datePublished">2021-05-27</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>“I thought clay must feel happy in the good potter’s hand.”<br>– Janet Fitch</p>
+</blockquote>
+<p>这学期结束后，利用短暂的假期，终于开启了著名的 <em>算法导论</em> 学习之旅。学习的时间比较仓促，由于平常还要实习，所以基本只学习了我认为经典和重要的数据结构和算法，耗时大概20天。</p>
+<p>学习的方法就是书上的定义，例子，伪代码并且用python语言实现（可以在博客里的project里面查看代码），有些伪代码难以理解或者例子过于复杂，会选择更简单堆例子来实现。本书最精华也是最难的数学证明部分（证明算法的合法性，运算时间，所占空间等）我是直接跳过了，因为时间的原因。经典的作品是不能只读一遍的，也许在不久的将来，我会利用闲暇的时间再重读此书。第二次阅读的主要目标是巩固第一遍较难的算法。</p>
+<p>首先总结一下学习的内容：</p>
+<ol>
+<li>排序算法。最为基础和经典的算法。书中给出了大约7中排序算法，选取了其中5种最常见的算法：插入，选择，冒泡，合并，堆排序，快速排序。其中较难理解的是合并以及快速排序。</li>
+<li>分治策略。主要以最大子数组为例，没有太深入学习</li>
+<li>基本数据结构。是本次学习中内容占比最大的。涉及到栈和队列，链表，散列表，二叉搜索树，红黑树。这次学习对这些基本的数据结构的实现有一定的理解，但还达不到手写出来的程度。</li>
+<li>动态规划和贪心算法。在面试题中出现频率非常高的题型，有很强的技巧性，难度也通常比较大。通常涉及到最优子问题。</li>
+<li>图论。广度优先搜索和深度优先搜索是非常重要的算法。kruskal和prim算法实现最小生成树，以及经典最短路径算法dijkstra。</li>
+<li>字符串匹配。KMP算法。</li>
+</ol>
+<p>学习完的感受：<br>对这些基本的算法的原理有了一定的理解，也了解到了算法设计的应用及重要性。对于工作中算法的面试也有很大的帮助。由于在学习的过程中深入度不够，以及在很多问题思考不足就直接搜索思路，目前存在的问题是对于算法的理解没有那么深入，在实操的时候也很容易出错（达不到不借助任何辅助来实现这些算法）。由于目前的首要难关是面试中的算法题，所以接下来就是要多刷题，尽可能利用学到的算法来实现。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&text=学习算法导论"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&title=学习算法导论"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&is_video=false&description=学习算法导论"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=学习算法导论&body=Check out this article: http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&title=学习算法导论"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&title=学习算法导论"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&title=学习算法导论"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&title=学习算法导论"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&name=学习算法导论&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/05/27/%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA/&t=学习算法导论"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2021
+    Ming Yue
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
