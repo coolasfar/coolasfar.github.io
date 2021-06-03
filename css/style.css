@@ -1525,6 +1525,7 @@ article .content .caption {
 .highlight .code .variable,
 .highlight .code .template-variable{
   color: #398bc6;
+  font-style: bold;
 }
 .highlight .code .selector-id,
 .highlight .code .class .title {
