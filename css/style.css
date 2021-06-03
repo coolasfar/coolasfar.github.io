@@ -1529,6 +1529,7 @@ article .content .caption {
 .highlight .code .variable,
 .highlight .code .template-variable{
   color: #398bc6;
+  font-weight: bold;
 
 }
 .highlight .code .selector-id,
