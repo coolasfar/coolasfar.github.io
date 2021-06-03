@@ -1547,7 +1547,8 @@ article .content .caption {
 .highlight .code .subst,
 .highlight .code .meta,
 .highlight .code .link {
-  color: #f99157;
+  color: #666;
+  font-weight: bold;
 }
 .highlight .code .deletion {
   color: #2bbc8a;
