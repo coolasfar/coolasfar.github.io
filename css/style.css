@@ -1536,9 +1536,7 @@ article .content .caption {
   color: #655f6d;
   font-weight: bold;
 }
-.highlight .code .variable .template-variable,
-.highlight .code .section,
-.highlight .code .name,
+
 .highlight .code .strong {
   font-weight: bold;
 }
