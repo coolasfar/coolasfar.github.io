@@ -1517,7 +1517,7 @@ article .content .caption {
 .highlight .code .title,
 .highlight .code .section{
   color: #8b0000;
-
+  font-weight: bold;
 }
 .highlight .code .name{
   color: #1b181b;
@@ -1534,6 +1534,7 @@ article .content .caption {
 .highlight .code .selector-id,
 .highlight .code .class{
   color: #655f6d;
+  font-weight: bold;
 }
 .highlight .code .variable .template-variable,
 .highlight .code .section,
