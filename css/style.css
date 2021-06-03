@@ -1515,10 +1515,13 @@ article .content .caption {
   color: #ca402b;
 }
 .highlight .code .title,
+.highlight .code .section{
+  color: #8b0000;
+}
 .highlight .code .name{
   color: #1b181b;
 }
-.highlight .code .section,
+
 .highlight .code .built_in {
   color: #b5bd68;
 }
