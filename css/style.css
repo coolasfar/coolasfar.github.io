@@ -1486,9 +1486,10 @@ article .content .caption {
 #categories .category-list .category-list-item .category-list-count:after {
   content: ")";
 }
+
 .highlight {
   background: #474949;
-  color: #d1d9e1;
+  color: #efecf4;
 }
 .highlight .code .comment,
 .highlight .code .quote {
