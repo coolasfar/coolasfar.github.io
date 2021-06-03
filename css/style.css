@@ -1502,6 +1502,7 @@ article .content .caption {
 .highlight .code .type,
 .highlight .code .addition {
   color: #1b181b;
+  font-style: bold;
 }
 .highlight .code .number,
 .highlight .code .selector-attr,
