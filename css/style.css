@@ -1529,12 +1529,13 @@ article .content .caption {
 .highlight .code .variable,
 .highlight .code .template-variable{
   color: #398bc6;
-  font-style: bold;
+
 }
 .highlight .code .selector-id,
 .highlight .code .class{
   color: #bb8a35;
 }
+.highlight .code .variable .template-variable,
 .highlight .code .section,
 .highlight .code .name,
 .highlight .code .strong {
