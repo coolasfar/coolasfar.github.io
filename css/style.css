@@ -1489,7 +1489,7 @@ article .content .caption {
 
 .highlight {
   background: #efecf4;
-  color: #585260;
+  color: #19171c;
 }
 .highlight .code .comment,
 .highlight .code .quote {
@@ -1577,7 +1577,7 @@ code {
   margin: 1rem 0;
   padding: 10px 15px;
   border-radius: 4px;
-  background: #212326;
+  background: #f8f8f8;
   font-family: "Menlo", "Meslo LG", monospace;
   -webkit-border-radius: 4px;
 }
