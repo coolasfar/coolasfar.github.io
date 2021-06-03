@@ -1501,17 +1501,17 @@ article .content .caption {
 .highlight .code .literal,
 .highlight .code .type,
 .highlight .code .addition {
-  color: #2bbc8a;
+  color: #1b181b;
 }
 .highlight .code .number,
 .highlight .code .selector-attr,
 .highlight .code .selector-pseudo {
-  color: #f99157;
+  color: #159393;
 }
 .highlight .code .string,
 .highlight .code .doctag,
 .highlight .code .regexp {
-  color: #8abeb7;
+  color: #ca402b;
 }
 .highlight .code .title,
 .highlight .code .name,
