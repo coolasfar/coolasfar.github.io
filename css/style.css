@@ -1532,7 +1532,7 @@ article .content .caption {
   font-style: bold;
 }
 .highlight .code .selector-id,
-.highlight .code .class .title {
+.highlight .code .class{
   color: #bb8a35;
 }
 .highlight .code .section,
