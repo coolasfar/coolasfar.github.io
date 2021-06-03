@@ -1517,7 +1517,7 @@ article .content .caption {
 .highlight .code .title,
 .highlight .code .section{
   color: #8b0000;
-  font-style: bold;
+
 }
 .highlight .code .name{
   color: #1b181b;
@@ -1553,6 +1553,7 @@ article .content .caption {
 .highlight .code .formula {
   background: #eee8d5;
 }
+.highlight .code .title .section,
 .highlight .code .attr,
 .highlight .code .attribute {
   color: #81a2be;
