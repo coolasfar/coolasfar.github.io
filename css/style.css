@@ -1521,7 +1521,9 @@ article .content .caption {
   color: #b5bd68;
 }
 .highlight .code .variable,
-.highlight .code .template-variable,
+.highlight .code .template-variable{
+  color: #398bc6;
+}
 .highlight .code .selector-id,
 .highlight .code .class .title {
   color: #bb8a35;
