@@ -1517,6 +1517,7 @@ article .content .caption {
 .highlight .code .title,
 .highlight .code .section{
   color: #8b0000;
+  font-style: bold;
 }
 .highlight .code .name{
   color: #1b181b;
