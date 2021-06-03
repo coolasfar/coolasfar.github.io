@@ -8,7 +8,7 @@
       <link href="2021/06/03/Cpp-Programming/"/>
       <url>2021/06/03/Cpp-Programming/</url>
       
-        <content type="html"><![CDATA[<blockquote><p>“If you do not change direction, you may end up where you were heading.”<br>– Lao Tzu</p></blockquote>]]></content>
+        <content type="html"><![CDATA[<blockquote><p>“If you do not change direction, you may end up where you were heading.”<br>– Lao Tzu</p></blockquote><p>Let’s explore the world of C++!</p><h2 id="intro"><a href="#intro" class="headerlink" title="intro"></a>intro</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostrem&gt;   //iostrem 库的相关头文件</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;hello,world!\n&quot;</span>;</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
       
       
       
