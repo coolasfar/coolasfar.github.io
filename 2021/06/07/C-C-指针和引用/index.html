@@ -14,7 +14,7 @@
 <meta property="og:description" content="介绍对我来说，C&#x2F;C++语言中最大的难点就是指针和引用的概念及其应用，为了更好更深入的理解，我找到三本包含C&#x2F;C++指针和引用的教科书。这篇文章是根据几本经典教材 (reference在文末），以及网上的一些资料加上自己的理解整理而成。 引入概念内存和地址我们可以把计算机的内存看作一条长街上的一排房屋，每个房屋都可以容纳数据，且有一个独特的房号来标识别。比如：   0   1   2   3  .">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-06-07T05:10:46.000Z">
-<meta property="article:modified_time" content="2021-06-07T14:37:54.373Z">
+<meta property="article:modified_time" content="2021-06-07T14:51:42.122Z">
 <meta property="article:author" content="Ming Yue">
 <meta name="twitter:card" content="summary">
     
@@ -162,13 +162,13 @@
 <p><strong>表达方式</strong></p>
 <ul>
 <li>指针: int * a =b, a 指向b的值。</li>
-<li>引用: int &amp;c= d, c引用d，相当于c是d的另一个名字。<br>下面举一个例子：<pre>
+<li>在C语言中&amp;符号的代表着取址，这和C++中引用的概念不一样。<br>下面举一个例子：<pre>
 一段内存地址与值：
 a    b     c           d     e
 |112 | -1 | 107852331|100 |108  |
 a-b是地址的名称，他们分别对应的地址是 a=100,b=104,c=108,d=112,e=116
 </pre>
-接下来给出一些声明：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a=<span class="number">112</span>,b=<span class="number">-1</span>;</span><br><span class="line"><span class="keyword">float</span> c=<span class="number">3.14</span>;</span><br><span class="line"><span class="keyword">int</span> *d=&amp;a;</span><br><span class="line"><span class="keyword">float</span> *e=&amp;c;</span><br></pre></td></tr></table></figure>
+接下来给出一些声明：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a=<span class="number">112</span>,b=<span class="number">-1</span>;</span><br><span class="line"><span class="keyword">float</span> c=<span class="number">3.14</span>;</span><br><span class="line"><span class="keyword">int</span> *d=&amp;a;  </span><br><span class="line"><span class="keyword">float</span> *e=&amp;c;</span><br></pre></td></tr></table></figure>
 那么结果为:<table>
 <thead>
 <tr>
