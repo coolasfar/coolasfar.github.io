@@ -23,7 +23,7 @@
 <meta property="og:image" content="http://example.com/2021/06/18/BFS-DFS%E7%AE%97%E6%B3%95/dfs3.png">
 <meta property="og:image" content="http://example.com/2021/06/18/BFS-DFS%E7%AE%97%E6%B3%95/dfs4.png">
 <meta property="article:published_time" content="2021-06-17T16:06:46.000Z">
-<meta property="article:modified_time" content="2021-06-18T09:37:16.294Z">
+<meta property="article:modified_time" content="2021-06-18T14:20:51.500Z">
 <meta property="article:author" content="Ming Yue">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2021/06/18/BFS-DFS%E7%AE%97%E6%B3%95/bfs1.png">
@@ -113,7 +113,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#BFS-%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">1.</span> <span class="toc-text">BFS(广度优先搜索)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DFS-%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">2.</span> <span class="toc-text">DFS(深度优先搜索)</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#BFS-%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">1.</span> <span class="toc-text">BFS(广度优先搜索)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DFS-%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">2.</span> <span class="toc-text">DFS(深度优先搜索)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%AF%94%E8%BE%83"><span class="toc-number">3.</span> <span class="toc-text">算法比较</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -179,15 +179,37 @@
 
 <p>用C++实现</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;list&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Graph</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> nodes;</span><br><span class="line">    <span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt;*adjMat;</span><br><span class="line">    <span class="keyword">bool</span> *visited;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Graph(<span class="keyword">int</span> n)&#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;nodes=n;</span><br><span class="line">        <span class="keyword">this</span>-&gt;adjMat = <span class="keyword">new</span> <span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt;[n];</span><br><span class="line">        <span class="keyword">this</span>-&gt;visited=<span class="keyword">new</span> <span class="keyword">bool</span>[n];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addEdge</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;adjMat[u].push_back(v);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> n)</span></span>;</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Graph::dfs</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="keyword">this</span>-&gt;nodes;i++)&#123;</span><br><span class="line">        visited[i]=<span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt;::iterator it;</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; s;</span><br><span class="line">    s.push(n);</span><br><span class="line">    <span class="keyword">while</span>(!s.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> cur=s.top();</span><br><span class="line">        visited[cur]=<span class="literal">true</span>;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;cur&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">        s.pop();</span><br><span class="line">        <span class="keyword">for</span>(it=adjMat[cur].begin();it!=adjMat[cur].end();it++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!visited[*it])</span><br><span class="line">                s.push(*it);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">Graph <span class="title">g</span><span class="params">(<span class="number">7</span>)</span></span>;</span><br><span class="line">    g.addEdge(<span class="number">0</span>, <span class="number">3</span>);</span><br><span class="line">    g.addEdge(<span class="number">0</span>, <span class="number">4</span>);</span><br><span class="line">    g.addEdge(<span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">    g.addEdge(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">    g.addEdge(<span class="number">1</span>, <span class="number">5</span>);</span><br><span class="line">    g.addEdge(<span class="number">1</span>, <span class="number">6</span>);</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    g.dfs(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
+<h2 id="算法比较"><a href="#算法比较" class="headerlink" title="算法比较"></a>算法比较</h2><p>在一般的算法问题中，两种算法都可以使用，只是在特定的情况下各有优劣。</p>
+<p>广度优先搜索:</p>
+<ul>
+<li><p>优点:</p>
+<ul>
+<li>对于解决最短或长最少问题有效，搜寻深度小</li>
+<li>每个结点只访问一次，结点总是以最短路径被访问。</li>
+</ul>
+</li>
+<li><p>缺点:</p>
+<ul>
+<li>内存耗费较大(需要大量的数组单元来存储)</li>
+</ul>
+</li>
+</ul>
+<p>广度优先算法更适合在较大范围或不断扩大遍历范围找到相对最优解。比如走迷宫的最短路径，计算机网络数据链路层最短跳数。</p>
+<p>深度优先搜索:</p>
+<ul>
+<li><p>优点:</p>
+<ul>
+<li>能找出所有解决方案</li>
+<li>内存需求较少</li>
+</ul>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>需要多次遍历，在时间方面效率不高</li>
+</ul>
+</li>
+</ul>
+<p>深度优先适合有明确目标或范围较小的情况。</p>
 
   </div>
 </article>
@@ -211,7 +233,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#BFS-%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">1.</span> <span class="toc-text">BFS(广度优先搜索)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DFS-%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">2.</span> <span class="toc-text">DFS(深度优先搜索)</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#BFS-%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">1.</span> <span class="toc-text">BFS(广度优先搜索)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DFS-%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">2.</span> <span class="toc-text">DFS(深度优先搜索)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%AF%94%E8%BE%83"><span class="toc-number">3.</span> <span class="toc-text">算法比较</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
