@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>数位和增量公式</title>
+      <link href="2021/06/19/%E6%95%B0%E4%BD%8D%E5%92%8C%E5%A2%9E%E9%87%8F%E5%85%AC%E5%BC%8F/"/>
+      <url>2021/06/19/%E6%95%B0%E4%BD%8D%E5%92%8C%E5%A2%9E%E9%87%8F%E5%85%AC%E5%BC%8F/</url>
+      
+        <content type="html"><![CDATA[<p>如果想求一个数所有数位之和，那么很简单:</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sums</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line"><span class="keyword">int</span> s=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(n)&#123;</span><br><span class="line">s+=n%<span class="number">10</span>; <span class="comment">//最后一位的数组</span></span><br><span class="line">n/=<span class="number">10</span>; <span class="comment">//左移一位</span></span><br><span class="line"><span class="comment">//是几进制就把两个10替换成几，比如如果计算二进制，就把10换成2</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> s;  <span class="comment">//比如 16 -&gt; 1+6=7</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在十进制情况下。设x的数位和为s(x),x+1的数位和为s(x+1)，则:</p><ol><li>当(x+1)%10 = 0时， s(x+1)=sx-8, 例如 19,20或者29,30的数位和差都是8。</li><li>当(x+1)%10 != 0时, s(x+1)=sx+1, 例如11，12的数位和分别是2，3。</li></ol><p>所以得出:</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(x+<span class="number">1</span>) % <span class="number">10</span> != <span class="number">0</span> ? s_x+<span class="number">1</span> : s_x<span class="number">-8</span>;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>BFS&amp;DFS算法</title>
       <link href="2021/06/18/BFS-DFS%E7%AE%97%E6%B3%95/"/>
       <url>2021/06/18/BFS-DFS%E7%AE%97%E6%B3%95/</url>
