@@ -22,8 +22,9 @@
 <meta property="og:image" content="http://example.com/2021/06/18/BFS-DFS%E7%AE%97%E6%B3%95/dfs2.png">
 <meta property="og:image" content="http://example.com/2021/06/18/BFS-DFS%E7%AE%97%E6%B3%95/dfs3.png">
 <meta property="og:image" content="http://example.com/2021/06/18/BFS-DFS%E7%AE%97%E6%B3%95/dfs4.png">
+<meta property="og:image" content="http://example.com/2021/06/18/BFS-DFS%E7%AE%97%E6%B3%95/bt.png">
 <meta property="article:published_time" content="2021-06-17T16:06:46.000Z">
-<meta property="article:modified_time" content="2021-06-18T14:20:51.500Z">
+<meta property="article:modified_time" content="2021-06-19T14:06:27.319Z">
 <meta property="article:author" content="Ming Yue">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2021/06/18/BFS-DFS%E7%AE%97%E6%B3%95/bfs1.png">
@@ -113,7 +114,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#BFS-%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">1.</span> <span class="toc-text">BFS(广度优先搜索)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DFS-%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">2.</span> <span class="toc-text">DFS(深度优先搜索)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%AF%94%E8%BE%83"><span class="toc-number">3.</span> <span class="toc-text">算法比较</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#BFS-%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">1.</span> <span class="toc-text">BFS(广度优先搜索)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DFS-%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">2.</span> <span class="toc-text">DFS(深度优先搜索)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%AF%94%E8%BE%83"><span class="toc-number">3.</span> <span class="toc-text">算法比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E7%AE%97%E6%B3%95%E5%BA%94%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">相关算法应用</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -210,6 +211,21 @@
 </li>
 </ul>
 <p>深度优先适合有明确目标或范围较小的情况。</p>
+<h2 id="相关算法应用"><a href="#相关算法应用" class="headerlink" title="相关算法应用"></a>相关算法应用</h2><p>如果把图看成数的结构的话，那么广度优先搜索就可以表示二叉树的层序遍历，深度优先搜索就可以表示前序遍历。<br>举例：一个二叉树为</p>
+<img src="/2021/06/18/BFS-DFS%E7%AE%97%E6%B3%95/bt.png" class>
+<ul>
+<li>层序: [3,9,20,null,null,15,7]</li>
+<li>前序: [3,9,20,15,null,null,7]</li>
+<li>中序: [null,9,null,3,15,20,7]</li>
+<li>后序: [null,null,9,15,7,20,3]</li>
+</ul>
+<p>用广度优先算法实现二叉树的层序遍历:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//假设树结点的数据结构已经给出</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; levelOrder(TreeNode* root) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; ans;</span><br><span class="line">    <span class="keyword">if</span>(!root)&#123;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="built_in">queue</span>&lt;TreeNode*&gt; q;</span><br><span class="line">    q.push(root); <span class="comment">//首先把跟结点加入队列</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> curSize=q.size();</span><br><span class="line">        ans.push_back(<span class="built_in">vector</span> &lt;<span class="keyword">int</span>&gt; ());<span class="comment">//记录每一层的结点</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=curSize;++i)&#123;</span><br><span class="line">            <span class="keyword">auto</span> node=q.front();</span><br><span class="line">            q.pop();</span><br><span class="line">            ans.back().push_back(node-&gt;val);</span><br><span class="line">            <span class="keyword">if</span>(node-&gt;left) q.push(node-&gt;left);</span><br><span class="line">            <span class="keyword">if</span>(node-&gt;right) q.push(node-&gt;right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans; <span class="comment">// [[3],[9,20],[15,7]]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用深度优先实现二叉树的前序遍历:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">preorderTraversal</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ans;</span><br><span class="line">    <span class="built_in">stack</span>&lt;TreeNode*&gt; s;</span><br><span class="line">    <span class="keyword">if</span>(root)</span><br><span class="line">        s.push(root);</span><br><span class="line">    <span class="keyword">while</span>(!s.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        TreeNode* cur = s.top();</span><br><span class="line">        s.pop();</span><br><span class="line">        ans.push_back(cur-&gt;val);</span><br><span class="line">        <span class="keyword">if</span>(cur-&gt;right)</span><br><span class="line">            s.push(cur-&gt;right);</span><br><span class="line">        <span class="keyword">if</span>(cur-&gt;left)</span><br><span class="line">            s.push(cur-&gt;left);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
 
   </div>
 </article>
@@ -233,7 +249,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#BFS-%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">1.</span> <span class="toc-text">BFS(广度优先搜索)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DFS-%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">2.</span> <span class="toc-text">DFS(深度优先搜索)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%AF%94%E8%BE%83"><span class="toc-number">3.</span> <span class="toc-text">算法比较</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#BFS-%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">1.</span> <span class="toc-text">BFS(广度优先搜索)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DFS-%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">2.</span> <span class="toc-text">DFS(深度优先搜索)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%AF%94%E8%BE%83"><span class="toc-number">3.</span> <span class="toc-text">算法比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E7%AE%97%E6%B3%95%E5%BA%94%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">相关算法应用</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
