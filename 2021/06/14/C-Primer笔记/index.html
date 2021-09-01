@@ -15,7 +15,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2021/06/14/C-Primer%E7%AC%94%E8%AE%B0/arithmetic.png">
 <meta property="article:published_time" content="2021-06-14T02:59:38.000Z">
-<meta property="article:modified_time" content="2021-07-05T16:32:39.882Z">
+<meta property="article:modified_time" content="2021-09-01T06:00:46.084Z">
 <meta property="article:author" content="Ming Yue">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2021/06/14/C-Primer%E7%AC%94%E8%AE%B0/arithmetic.png">
@@ -206,7 +206,18 @@
 </ol>
 <p><strong>pointer, const and type aliases</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">char</span> *pstring;</span><br><span class="line"><span class="keyword">const</span> pstring cstr=<span class="number">0</span>; <span class="comment">// cstr is a constant pointer to char</span></span><br><span class="line"><span class="keyword">const</span> pstring *ps;   <span class="comment">//ps is a pointer to a constant pointer to char</span></span><br><span class="line"><span class="comment">//第二行等同于char *const cstr=0;</span></span><br></pre></td></tr></table></figure>
-<p><strong>auto type</strong><br><strong>C++11新特性</strong></p>
+<p><strong>auto type</strong><br><strong>C++11新特性</strong><br>auto变量的类型是根据它初始化的类型来决定的，也就是auto必须初始化。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> i =<span class="number">0</span> , *p = &amp;i; <span class="comment">//ok i为int, *p是一个指向int的pointer</span></span><br><span class="line"><span class="keyword">auto</span> sz=<span class="number">0</span> , pi = <span class="number">3.14</span>; <span class="comment">//error， sz和pi的类型必须一致</span></span><br></pre></td></tr></table></figure>
+<p><strong>Compound types, const and auto</strong></p>
+<ol>
+<li>当auto指定为一个引用值时，auto的类型为所引用的类型<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i=<span class="number">0</span>, &amp;r=i;</span><br><span class="line"><span class="keyword">auto</span> a = r; <span class="comment">// a is int</span></span><br></pre></td></tr></table></figure></li>
+<li>auto 自动忽略顶层const<pre><code class="cpp">const int ci = i, &amp;ci=i;
+auto b = ci; //b is int
+auto c = cr; //c is an int
+auto d = &amp;i; //d is int * (&amp;of an int object is int*)
+auto e = &amp;ci; //e is const int * (&amp; of a const object is low-level const)</code></pre>
+</li>
+</ol>
 
   </div>
 </article>
